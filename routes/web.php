@@ -20,4 +20,5 @@ Route::get('/', function () {
 
 Route::prefix('user')->group(function () {
     Route::post('/register', [UserController::class, 'store'])->name('user.register');
+    Route::get('/create', [UserController::class, 'create'])->name('user.create');
 });

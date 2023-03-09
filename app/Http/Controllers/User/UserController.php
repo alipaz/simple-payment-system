@@ -20,14 +20,21 @@ class UserController extends Controller
 
     /**
      * @param StoreUserValidation $userValidationRequest
-     * @return void
+     * @return mixed
      */
     public function store(StoreUserValidation $userValidationRequest)
     {
       return $this->userService->registerNewUser(
             UsersDto::fromUserStoreRequest($userValidationRequest)
         );
+    }
 
+    /**
+     * @return View
+     */
+    public function create(): View
+    {
+        return view('user.create');
     }
 
 }
