@@ -25,7 +25,7 @@ class UserController extends Controller
     public function store(StoreUserValidation $userValidationRequest)
     {
       return $this->userService->registerNewUser(
-            UsersDto::fromUserRequest($userValidationRequest)
+            UsersDto::fromUserStoreRequest($userValidationRequest)
         );
 
     }
