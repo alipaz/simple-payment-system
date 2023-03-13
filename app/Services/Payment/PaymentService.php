@@ -5,6 +5,7 @@ namespace App\Services\Payment;
 use App\Exceptions\PaymentError;
 use App\Exceptions\PaymentErrorException;
 use App\Models\Payment;
+use App\Models\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\GuzzleException;
@@ -28,13 +29,26 @@ class PaymentService
     private Payment $paymentModel;
 
     /**
+     * @var User
+     */
+    private User $userModel;
+
+
+    /**
      * @param Client $httpClient
      * @param Payment $paymentModel
+     * @param User $userModel
      */
-    public function __construct(Client $httpClient, Payment $paymentModel)
+    public function __construct
+    (
+        Client $httpClient,
+        Payment $paymentModel,
+        User $userModel
+    )
     {
         $this->httpClient   = $httpClient;
         $this->paymentModel = $paymentModel;
+        $this->userModel    = $userModel;
     }
 
 
@@ -45,6 +59,8 @@ class PaymentService
      */
     public function prepareCreatePaymentRequest($order)
     {
+        $this->saveUserCardNumberBeforePay($order->cardNumber);
+
         $headers = $this->prepareRequestHeader();
 
         $body = $this->prepareBodyForCreatePaymentRequest($order);
@@ -72,6 +88,7 @@ class PaymentService
 
             $this->paymentCallBack($responseBody['data']['token']);
         } catch (\Exception $e) {
+            dd($e->getMessage());
             throw new PaymentErrorException($e->getMessage());
         }
     }
@@ -237,7 +254,8 @@ class PaymentService
     /**
      * @param $headers
      * @param $body
-     * @return RedirectResponse|mixed
+     * @return mixed
+     * @throws PaymentErrorException
      */
     public function sendVerifyPaymentRequest($headers, $body)
     {
@@ -247,6 +265,7 @@ class PaymentService
             return $this->httpClient->sendAsync($request)->wait();
 
         }catch (\Exception $e) {
+            dd($e->getMessage());
             throw new PaymentErrorException($e->getMessage());
         }
     }
@@ -291,5 +310,13 @@ class PaymentService
     }
 
 
+    /**
+     * @param $cardNumber
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     */
+    public function saveUserCardNumberBeforePay($cardNumber): ?User
+    {
+       return $this->userModel->updateUserCardNumber($cardNumber);
+    }
 
 }
