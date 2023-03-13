@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => $user->id,
             'status' => 'open',
             'product_title' => 'Sample Product',
-            'total_cost' => 1000,
+            'total_cost' => 10000,
         ]);
     }
 
