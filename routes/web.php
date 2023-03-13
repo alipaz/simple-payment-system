@@ -30,7 +30,15 @@ Route::prefix('checkout')->group(function () {
 
 Route::prefix('payment')->group(function () {
 
-    Route::post('pay/{order}', [\App\Http\Controllers\PaymentController::class, 'pay'])->name('payment.pay');
+    Route::post('pay/{order}', [\App\Http\Controllers\PaymentController::class, 'pay'])
+        ->name('payment.pay');
 
-    Route::get('call-back', [\App\Http\Controllers\PaymentController::class, 'callBack'])->name('payment.callBack');
+    Route::get('call-back', [\App\Http\Controllers\PaymentController::class, 'callBack'])
+        ->name('payment.callBack');
+
+    Route::get('/success/{payment}', [\App\Http\Controllers\PaymentController::class, 'showPaymentSuccessResult'])
+        ->name('payment.success');
+
+    Route::get('/failed/{errorMessage?}', [\App\Http\Controllers\PaymentController::class, 'showPaymentFailedResult'])
+        ->name('payment.failed');
 });
