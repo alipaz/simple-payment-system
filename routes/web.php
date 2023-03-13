@@ -21,11 +21,13 @@ Route::get('/', function () {
 
 Route::prefix('user')->group(function () {
     Route::post('/register', [UserController::class, 'store'])->name('user.register');
+    Route::post('/login', [UserController::class, 'login'])->name('user.login');
     Route::get('/create', [UserController::class, 'create'])->name('user.create');
 });
 
 Route::prefix('checkout')->group(function () {
-    Route::get('/show/{order}', [CheckoutController::class, 'show'])->name('checkout.show');
+    Route::get('/show/{order}', [CheckoutController::class, 'show'])
+        ->name('checkout.show');
 });
 
 Route::prefix('payment')->group(function () {
