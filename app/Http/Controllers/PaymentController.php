@@ -45,7 +45,7 @@ class PaymentController extends Controller
             CallBackRequestDto::fromPaymentCallBackRequest($paymentCallBackRequest)
         );
 
-        if ($result === Payment::class) {
+        if ($result instanceof Payment) {
             return redirect()->route('payment.success', ['payment' => $result]);
         } else {
             return redirect()->route('payment.failed', ['errorMessage' => $result]);
