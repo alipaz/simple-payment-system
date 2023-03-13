@@ -18,9 +18,4 @@ class CheckoutController extends Controller
     {
         return view('checkout.show', compact('order'));
     }
-
-    public function pay()
-    {
-
-    }
 }
