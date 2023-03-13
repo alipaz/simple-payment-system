@@ -102,8 +102,6 @@ class Payment extends Model
                 Payment::COLUMN_TRANSACTION_ID     => $newData->transaction_id,
                 Payment::COLUMN_TRACKING_CODE      => $newData->tracking_code,
                 Payment::COLUMN_CARD_NUMBER        => $newData->card_number,
-                Payment::COLUMN_STATUS             => Payment::STATUS_WAITING,
-                Payment::COLUMN_PAYED_AT           => Carbon::now(),
             ]);
         });
         return $payment;
@@ -117,7 +115,7 @@ class Payment extends Model
     {
         DB::transaction(function () use ($payment) {
             $payment->updateOrFail([
-                Payment::COLUMN_STATUS             => Payment::STATUS_WAITING,
+                Payment::COLUMN_STATUS             => Payment::STATUS_SUCCESS,
                 Payment::COLUMN_PAYED_AT           => Carbon::now(),
             ]);
         });
