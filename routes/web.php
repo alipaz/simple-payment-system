@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Checkout\CheckoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,15 @@ Route::get('/', function () {
 Route::prefix('user')->group(function () {
     Route::post('/register', [UserController::class, 'store'])->name('user.register');
     Route::get('/create', [UserController::class, 'create'])->name('user.create');
+});
+
+Route::prefix('checkout')->group(function () {
+    Route::get('/show/{order}', [CheckoutController::class, 'show'])->name('checkout.show');
+});
+
+Route::prefix('payment')->group(function () {
+
+    Route::post('pay/{order}', [\App\Http\Controllers\PaymentController::class, 'pay'])->name('payment.pay');
+
+    Route::get('call-back', [\App\Http\Controllers\PaymentController::class, 'callBack'])->name('payment.callBack');
 });
