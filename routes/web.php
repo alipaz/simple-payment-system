@@ -16,7 +16,7 @@ use App\Http\Controllers\Checkout\CheckoutController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('checkout.show', ['order' => 1]);
 });
 
 Route::prefix('user')->group(function () {
