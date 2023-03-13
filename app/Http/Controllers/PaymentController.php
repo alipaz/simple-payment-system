@@ -6,16 +6,10 @@ use App\DataTransferObject\CallBackRequestDto;
 use App\DataTransferObject\CheckoutRequestDto;
 use App\Http\Requests\Payment\CheckoutPayRequest;
 use App\Http\Requests\Payment\PaymentCallBackRequest;
-use App\Http\Requests\Payment\StorePaymentRequest;
-use App\Http\Requests\Payment\UpdatePaymentRequest;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Services\Payment\PaymentService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\View;
 
 class PaymentController extends Controller
 {
