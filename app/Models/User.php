@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -37,6 +38,7 @@ class User extends Authenticatable
         self::COLUMN_LAST_NAME,
         self::COLUMN_EMAIL,
         self::COLUMN_PASSWORD,
+        self::COLUMN_CARD_NUMBER
     ];
 
     /**
@@ -58,8 +60,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function payments()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function updateUserCardNumber($cardNumber)
+    {
+        $query = self::query();
+
+        // in this project we don't have login user, it is static
+       $user = $query->where(self::COLUMN_ID, 1)->first();
+
+       $user?->updateOrFail([
+           self::COLUMN_CARD_NUMBER => $cardNumber
+       ]);
+
+        return $user;
     }
 }
