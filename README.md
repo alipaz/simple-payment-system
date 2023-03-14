@@ -27,4 +27,4 @@ Simple order payment system using the paystar gateway (this project was only for
  ``` 
  http://localhost:8084/
  ```
- ### Paying attention, this application has a auth check, but for more convenience, seeder is used and it does not need to create an account and login.
+ ### Paying attention, this application has auth check, but for more convenience, seeder is used and it does not need to create an account and login.
